@@ -1,0 +1,314 @@
+{
+  "types": [
+    {
+      "name": "UserRole",
+      "type": "enum",
+      "exported": true,
+      "values": [
+        {
+          "name": "Admin",
+          "value": "ADMIN",
+          "comment": "Admin user with all privileges"
+        },
+        {
+          "name": "User",
+          "value": "USER",
+          "comment": "Regular user with limited access"
+        },
+        {
+          "name": "Guest",
+          "value": "GUEST",
+          "comment": "Guest user with minimal access"
+        }
+      ],
+      "comment": "// Enum example with comments\n/**\nUser roles within the system."
+    },
+    {
+      "name": "User",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "id",
+          "type": {
+            "type": "number"
+          },
+          "optional": false,
+          "comment": "Unique identifier for the user"
+        },
+        {
+          "name": "name",
+          "type": {
+            "type": "string"
+          },
+          "optional": false,
+          "comment": "Name of the user"
+        },
+        {
+          "name": "role",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "UserRole"
+            }
+          },
+          "optional": false,
+          "comment": "Role assigned to the user"
+        }
+      ],
+      "comment": "Represents a basic user."
+    },
+    {
+      "name": "UserProfile",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "user",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "User"
+            }
+          },
+          "optional": false,
+          "comment": "Basic user details"
+        },
+        {
+          "name": "address",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "Address"
+            }
+          },
+          "optional": false,
+          "comment": "Address of the user"
+        }
+      ],
+      "comment": "Represents a user's profile including address details."
+    },
+    {
+      "name": "Address",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "street",
+          "type": {
+            "type": "string"
+          },
+          "optional": false
+        },
+        {
+          "name": "city",
+          "type": {
+            "type": "string"
+          },
+          "optional": false
+        },
+        {
+          "name": "country",
+          "type": {
+            "type": "string"
+          },
+          "optional": false
+        }
+      ],
+      "comment": "Address details of a user."
+    },
+    {
+      "name": "Service",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "name",
+          "type": {
+            "type": "string"
+          },
+          "optional": false,
+          "comment": "Name of the service"
+        },
+        {
+          "name": "description",
+          "type": {
+            "type": "string"
+          },
+          "optional": true,
+          "comment": "Optional description of the service"
+        },
+        {
+          "name": "execute",
+          "type": {
+            "type": "function",
+            "async": false,
+            "parameters": [],
+            "returns": {
+              "type": "void"
+            }
+          },
+          "optional": false,
+          "comment": "Executes the service"
+        }
+      ],
+      "comment": "Represents a service that can be executed."
+    },
+    {
+      "name": "Wrapper",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "value",
+          "type": {
+            "type": "string"
+          },
+          "optional": false,
+          "comment": "The actual value"
+        },
+        {
+          "name": "timestamp",
+          "type": {
+            "type": "number"
+          },
+          "optional": false,
+          "comment": "Timestamp of when the value was recorded"
+        }
+      ],
+      "comment": "Wrapper for any type of value with metadata."
+    },
+    {
+      "name": "Translations",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "dictionary",
+          "type": {
+            "type": "Record",
+            "keyType": "string",
+            "valueType": {
+              "type": "string"
+            }
+          },
+          "optional": false,
+          "comment": "A record of language keys to translation strings"
+        }
+      ],
+      "comment": "Stores translations for different languages."
+    },
+    {
+      "name": "ApiClient",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "getUser",
+          "type": {
+            "type": "function",
+            "async": false,
+            "parameters": [
+              {
+                "name": "id",
+                "type": {
+                  "type": "number"
+                }
+              }
+            ],
+            "returns": {
+              "type": "Promise",
+              "valueType": {
+                "type": "object",
+                "valueType": {
+                  "type": "User"
+                }
+              }
+            }
+          },
+          "optional": false,
+          "comment": "Fetches a user by ID.\n@param id The ID of the user.\n@returns A promise resolving to the user object."
+        },
+        {
+          "name": "saveSettings",
+          "type": {
+            "type": "function",
+            "async": false,
+            "parameters": [
+              {
+                "name": "settings",
+                "type": {
+                  "type": "number"
+                }
+              }
+            ],
+            "returns": {
+              "type": "Promise",
+              "valueType": {
+                "type": "boolean"
+              }
+            }
+          },
+          "optional": false,
+          "comment": "Saves user settings.\n@param settings The settings to be saved.\n@returns A promise resolving to a boolean indicating success."
+        }
+      ],
+      "comment": "API Client for user-related operations."
+    },
+    {
+      "name": "AppSettings",
+      "type": "interface",
+      "exported": true,
+      "properties": [
+        {
+          "name": "theme",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "\"light\" | \"dark\""
+            }
+          },
+          "optional": false,
+          "comment": "UI theme setting"
+        },
+        {
+          "name": "profile",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "UserProfile"
+            }
+          },
+          "optional": false,
+          "comment": "User profile details"
+        },
+        {
+          "name": "services",
+          "type": {
+            "type": "array",
+            "valueType": {
+              "type": "object",
+              "valueType": {
+                "type": "Service"
+              }
+            }
+          },
+          "optional": false,
+          "comment": "List of active services"
+        },
+        {
+          "name": "apiClient",
+          "type": {
+            "type": "object",
+            "valueType": {
+              "type": "ApiClient"
+            }
+          },
+          "optional": false,
+          "comment": "API client instance"
+        }
+      ],
+      "comment": "Application settings configuration."
+    }
+  ]
+}
